@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance';
 import { Link } from 'react-router-dom';
+import './Genre.css'
 
 function GenreList() {
   const [genres, setGenres] = useState([]);
@@ -8,7 +9,7 @@ function GenreList() {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/genres');
+        const response = await axiosInstance.get('/genres');
         setGenres(response.data);
       } catch (error) {
         console.error('Error fetching genres:', error);
@@ -20,7 +21,7 @@ function GenreList() {
 
   const deleteGenre = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/genres/${id}`);
+      await axiosInstance.delete(`/genres/${id}`);
       setGenres(genres.filter(genre => genre._id !== id)); // Refresh the genre list
     } catch (error) {
       console.error('Error deleting genre:', error);
@@ -28,18 +29,29 @@ function GenreList() {
   };
 
   return (
-    <div>
-      <h2>Genres</h2>
-      <Link to="/genres/create">Create New Genre</Link>
-      <ul>
-        {genres.map(genre => (
-          <li key={genre._id}>
-            {genre.name}
-            <Link to={`/genres/update/${genre._id}`}>Edit</Link>
-            <button onClick={() => deleteGenre(genre._id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+    <div className='p-3'>
+      <h2 className='mt-3'>Genres</h2>
+      <Link to="/genres/create"><button className='btn btn-primary my-3'>Create New Genre</button></Link>
+     
+
+      <table>
+        
+          <tr>
+            <th>Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+          {genres.map(genre=>(
+            <tr key={genre._id}>
+              <td>{genre.name}</td>
+              <td><Link className='text-decoration-none text-danger' to={`/genres/update/${genre._id}`}>Edit</Link></td>
+              <td><Link className='text-decoration-none text-danger'  onClick={() => deleteGenre(genre._id)}>Delete</Link></td>
+
+            </tr>
+          ))}
+          
+        
+      </table>
     </div>
   );
 }

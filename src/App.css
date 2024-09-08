@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+
+.IPTV{
+display: block;
+}
+.smallscreenmsg{
+  display: none;
+  text-align: center;
+  padding: 20px;
+  margin-top: 50vh;
+}
+@media only screen and (max-width: 800px) {
+  .IPTV {
+    display: none;
+  }
+  .smallscreenmsg{
+    display: block;
+  }
+}

@@ -1,0 +1,16 @@
+.dashboard{
+    display: flex;
+    width: 100%;
+}
+.sidebar{
+    background-color: rgb(66, 66, 185);
+    color: white;
+    width: 20%;
+    
+}
+.main{
+    width: 80%;
+    background-color: rgb(216, 208, 208);
+    padding: 8px;
+    overflow: hidden;
+}

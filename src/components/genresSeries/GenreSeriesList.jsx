@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance';
 
 function GenreSeriesList() {
   const [genreSeriesList, setGenreSeriesList] = useState([]);
@@ -11,7 +11,7 @@ function GenreSeriesList() {
 
   const fetchGenreSeries = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/genres-series');
+      const response = await axiosInstance.get('/genres-series');
       setGenreSeriesList(response.data);
     } catch (error) {
       console.error('Error fetching genre-series:', error);
@@ -20,7 +20,7 @@ function GenreSeriesList() {
 
   const deleteGenreSeries = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/genres-series/${id}`);
+      await axiosInstance.delete(`/genres-series/${id}`);
       fetchGenreSeries(); // Refresh the list
     } catch (error) {
       console.error('Error deleting genre-series:', error);
@@ -28,20 +28,36 @@ function GenreSeriesList() {
   };
 
   return (
-    <div>
-      <h2>Genre-Series Associations</h2>
+    <div className='p-3'>
+      <h2 className='mb-4'>Genre-Series Associations</h2>
       <Link to="/genres-series/create">
-        <button>Add New Genre-Series</button>
+        <button className='btn btn-primary mb-3'>Add New Genre-Series</button>
       </Link>
-      <ul>
-        {genreSeriesList.map((association) => (
-          <li key={association._id}>
-            Genre ID: {association.genreId} - Series ID: {association.seriesId}
-            <button onClick={() => deleteGenreSeries(association._id)}>Delete</button>
-            
-          </li>
-        ))}
-      </ul>
+      <table className='table table-bordered table-striped'>
+        <thead>
+          <tr>
+            <th>Genre ID</th>
+            <th>Series ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {genreSeriesList.map((association) => (
+            <tr key={association._id}>
+              <td>{association.genreId}</td>
+              <td>{association.seriesId}</td>
+              <td>
+                <button
+                  className='btn text-decoration-none btn-link text-danger p-0'
+                  onClick={() => deleteGenreSeries(association._id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

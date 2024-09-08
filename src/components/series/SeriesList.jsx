@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance';
 
 function SeriesList() {
   const [seriesList, setSeriesList] = useState([]);
@@ -11,7 +11,7 @@ function SeriesList() {
 
   const fetchSeries = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/series');
+      const response = await axiosInstance.get('/series');
       setSeriesList(response.data);
     } catch (error) {
       console.error('Error fetching series:', error);
@@ -20,7 +20,7 @@ function SeriesList() {
 
   const deleteSeries = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/series/${id}`);
+      await axiosInstance.delete(`/series/${id}`);
       fetchSeries(); // Refresh the list
     } catch (error) {
       console.error('Error deleting series:', error);
@@ -28,22 +28,36 @@ function SeriesList() {
   };
 
   return (
-    <div>
-      <h2>Series List</h2>
+    <div className='p-3'>
+      <h2 className='mt-3'>Series List</h2>
       <Link to="/series/create">
-        <button>Add New Series</button>
+        <button className='btn btn-primary my-3'>Add New Series</button>
       </Link>
-      <ul>
-        {seriesList.map((series) => (
-          <li key={series._id}>
-            <strong>Title:</strong> {series.title} - <strong>Description:</strong> {series.description}
-            <button onClick={() => deleteSeries(series._id)}>Delete</button>
-            <Link to={`/series/edit/${series._id}`}>
-              <button>Edit</button>
-            </Link>
-          </li>
-        ))}
-      </ul>
+
+      <table className='table'>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {seriesList.map((series) => (
+            <tr key={series._id}>
+              <td>{series.name}</td> {/* Updated to series.name */}
+              <td>{series.description}</td>
+              <td>
+                <Link className='text-decoration-none text-secondary' to={`/series/edit/${series._id}`}>Edit</Link>
+              </td>
+              <td>
+                <Link className='text-decoration-none text-danger' onClick={() => deleteSeries(series._id)}>Delete</Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

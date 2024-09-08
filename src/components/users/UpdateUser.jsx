@@ -31,35 +31,66 @@ function UpdateUser() {
         email,
         password,
       });
-      navigate('/'); // Redirect to user list
+      navigate('/users'); // Redirect to user list
     } catch (error) {
       console.error('Error updating user:', error);
     }
   };
 
   return (
-    <div>
-      <h2>Update User</h2>
+    <div className='p-3'>
+  <h2 className='my-3'>Update User</h2>
+  
+  <div className="row">
+    <div className="col-md-3">
+      <label className='fs-5' htmlFor="name">User Name</label>
+    </div>
+    <div className="col-md-9">
       <input
+        className='w-50 p-2'
+        name='name'
         type="text"
         placeholder="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-      />
+      /> 
+    </div>
+  </div>
+
+  <div className="row">
+    <div className="col-md-3">
+      <label className='fs-5' htmlFor="email">User Email</label>
+    </div>
+    <div className="col-md-9">
       <input
+        className='w-50 p-2 my-3'
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
+    </div>
+  </div>
+  
+  <div className="row">
+    <div className="col-md-3">
+      <label className='fs-5' htmlFor="password">User Password</label>
+    </div>
+    <div className="col-md-9">
       <input
+        className='w-50 p-2'
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={updateUser}>Update User</button>
     </div>
+  </div>
+
+  <br />
+  <button className='btn btn-primary my-3' onClick={updateUser}>Update User</button>
+</div>
+
   );
 }
 

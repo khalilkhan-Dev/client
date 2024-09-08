@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../api/axiosInstance';
 import { Link } from 'react-router-dom';
+import './user.css';
 
 function UserList() {
   const [users, setUsers] = useState([]);
@@ -28,18 +29,30 @@ function UserList() {
   };
 
   return (
-    <div>
-      <h2>Users</h2>
-      <Link to="/create">Add New User</Link>
-      <ul>
-        {users.map(user => (
-          <li key={user._id}>
-            {user.username} - {user.email}
-            <button onClick={() => deleteUser(user._id)}>Delete</button>
-            <Link to={`/update/${user._id}`}>Edit</Link>
-          </li>
-        ))}
-      </ul>
+    <div className='p-3'>
+      <h2 className='my-3'>Users</h2>
+      <Link to="/create"><button className='btn btn-primary mb-3'>Add New User</button></Link>
+
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>User Name</th>
+            <th>User Email</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map(user => (
+            <tr key={user._id}>
+              <td>{user.username}</td>
+              <td>{user.email}</td>
+              <td><Link className='text-decoration-none text-danger' onClick={() => deleteUser(user._id)}>Delete</Link></td>
+              <td><Link className='text-decoration-none text-danger' to={`/update/${user._id}`}>Edit</Link></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

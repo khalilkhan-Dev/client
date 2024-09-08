@@ -15,34 +15,71 @@ function CreateUser() {
         email,
         password,
       });
-      navigate('/'); // Redirect to user list
+      navigate('/users'); // Redirect to user list
     } catch (error) {
       console.error('Error creating user:', error);
     }
   };
 
   return (
-    <div>
-      <h2>Create New User</h2>
-      <input
+    <div className='p-3'>
+      <h2 className='my-3'>Create New User</h2>
+      <div className="row">
+
+        <div className="col-md-3">
+        <label className='fs-5' htmlFor="name">User Name</label>
+        </div>
+
+        <div className="col-md-9">
+        <input
+        className='w-50 p-2'
+        name='name'
         type="text"
         placeholder="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-      />
-      <input
+      /> 
+        </div>
+        
+      </div>
+    
+      <div className="row">
+        <di className="col-md-3 d-flex align-items-center">
+        <label className='fs-5' htmlFor="name">User Email</label>
+        </di>
+
+        <div className="col-md-9">
+        <input
+        className='w-50  p-2 my-3'
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <input
+        </div>
+      </div>
+      
+      <div className="row">
+        <div className="col-md-3">
+        <label className='fs-5' htmlFor="name">User Password</label>
+        </div>
+        <div className="col-md-9">
+        <input
+        className='w-50  p-2'
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={createUser}>Create User</button>
+        </div>
+      </div>
+
+      
+      
+
+      
+      <br />
+      <button className='btn btn-primary my-3' onClick={createUser}>Create User</button>
     </div>
   );
 }

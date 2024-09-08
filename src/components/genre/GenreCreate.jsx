@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
 function GenreCreate() {
@@ -8,7 +8,7 @@ function GenreCreate() {
 
   const createGenre = async () => {
     try {
-      await axios.post('http://localhost:5000/genres', { name });
+      await axiosInstance.post('/genres', { name });
       setName('');
       navigate('/genres'); // Redirect to genre list page
     } catch (error) {
@@ -17,15 +17,19 @@ function GenreCreate() {
   };
 
   return (
-    <div>
-      <h2>Create New Genre</h2>
+    <div className='p-3'>
+      <h2 className='mb-5 mt-3'>Create New Genre</h2>
+      <label className='me-5 fs-4' htmlFor="genre">Genre Name</label>
       <input
+      className='p-2 w-25 '
         type="text"
         placeholder="Name"
+        name='genre'
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <button onClick={createGenre}>Create Genre</button>
+      <br />
+      <button className='btn btn-primary my-3' onClick={createGenre}>Create Genre</button>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance';
 import { useParams, useNavigate } from 'react-router-dom';
 
 function GenreEdit() {
@@ -10,7 +10,7 @@ function GenreEdit() {
   useEffect(() => {
     const fetchGenre = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/genres/${id}`);
+        const response = await axiosInstance.get(`/genres/${id}`);
         setName(response.data.name);
       } catch (error) {
         console.error('Error fetching genre:', error);
@@ -22,7 +22,7 @@ function GenreEdit() {
 
   const updateGenre = async () => {
     try {
-      await axios.patch(`http://localhost:5000/genres/${id}`, { name });
+      await axiosInstance.patch(`/genres/${id}`, { name });
       navigate('/genres'); // Redirect to genre list page
     } catch (error) {
       console.error('Error updating genre:', error);
@@ -30,15 +30,19 @@ function GenreEdit() {
   };
 
   return (
-    <div>
-      <h2>Update Genre</h2>
+    <div className='p-3'>
+    <h2 className='mb-5 mt-3'>Update Genre</h2>
+    <label className='me-5 fs-4' htmlFor="genre">Update Genre</label>
       <input
+        className='p-2 w-25 '
+        name='genre'
         type="text"
         placeholder="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <button onClick={updateGenre}>Update Genre</button>
+      <br />
+      <button className='btn btn-primary my-3' onClick={updateGenre}>Update Genre</button>
     </div>
   );
 }
